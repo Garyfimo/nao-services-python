@@ -35,7 +35,7 @@ def get_news(news_type):
 	for item in items:
 		titles = item.getElementsByTagName('title')
 		for title in titles:
-			print title.childNodes[0].nodeValue				
+			#print title.childNodes[0].nodeValue				
 			news.append(title.childNodes[0].nodeValue)		
 	return news
 
