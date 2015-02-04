@@ -24,7 +24,7 @@ def index():
 @app.route("/news/<news_type>")
 def news(news_type):
 	hola = get_news(news_type)
-	return make_response(dumps(hola, ensure_ascii=True).encode("utf-8"))
+	return make_response(dumps(hola)) #, ensure_ascii=True).encode("utf-8"))
 
 
 def get_news(news_type):
