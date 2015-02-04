@@ -16,6 +16,8 @@ urls = {
 
 app = Flask(__name__)
 
+
+
 @app.route("/categorias")
 def index():
 	categorias = ["futbol", "cine", "tecnologia", "ciencia", "latinoamerica"]
@@ -27,6 +29,10 @@ def news(news_type):
 	return make_response(dumps(hola, ensure_ascii=False).encode("utf-8"))
 
 
+def delete_tildes(s):
+   return ''.join((c for c in unicodedata.normalize('NFD', s) if unicodedata.category(c) != 'Mn'))
+ 
+
 def get_news(news_type):
 	xml = minidom.parse(urlopen(urls[news_type]))
 	items = xml.getElementsByTagName('item')	
@@ -36,8 +42,10 @@ def get_news(news_type):
 		titles = item.getElementsByTagName('title')
 		for title in titles:
 			#print (title.childNodes[0].nodeValue).encode("ascii", "ignore")
-			#print type(title.childNodes[0].nodeValue)
-			news.append(title.childNodes[0].nodeValue).encode("ascii", "ignore")
+			#print type(str(title.childNodes[0].nodeValue))
+			tildes = title.childNodes[0].nodeValue
+			no_tildes = delete_tildes(tildes)
+			news.append(tildes).encode("ascii", "ignore")
 	return news
 
 if __name__ == "__main__":
