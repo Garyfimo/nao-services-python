@@ -24,7 +24,7 @@ def index():
 @app.route("/news/<news_type>")
 def news(news_type):
 	hola = get_news(news_type)
-	return make_response(dumps(hola)) #, ensure_ascii=True).encode("utf-8"))
+	return make_response(dumps(hola, ensure_ascii=False).encode("utf-8"))
 
 
 def get_news(news_type):
@@ -35,8 +35,9 @@ def get_news(news_type):
 	for item in items:
 		titles = item.getElementsByTagName('title')
 		for title in titles:
-			#print title.childNodes[0].nodeValue				
-			news.append(title.childNodes[0].nodeValue)		
+			#print (title.childNodes[0].nodeValue).encode("ascii", "ignore")
+			#print type(title.childNodes[0].nodeValue)
+			news.append(title.childNodes[0].nodeValue).encode("ascii", "ignore")
 	return news
 
 if __name__ == "__main__":
