@@ -2,6 +2,7 @@ from xml.dom import minidom
 from urllib2 import urlopen
 from flask import Flask, make_response
 from json import dumps
+import unicodedata
 
 urls = {
 	'futbol' : "http://elpais.com/tag/rss/futbol/a/", \
@@ -45,7 +46,7 @@ def get_news(news_type):
 			#print type(str(title.childNodes[0].nodeValue))
 			tildes = title.childNodes[0].nodeValue
 			no_tildes = delete_tildes(tildes)
-			news.append(tildes).encode("ascii", "ignore")
+			news.append(no_tildes.encode("ascii", "ignore"))
 	return news
 
 if __name__ == "__main__":
